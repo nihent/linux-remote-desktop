@@ -101,7 +101,6 @@ linux-remote-desktop/
 └── screenshots/
     ├── login.png
     ├── desktop.png
-    └── (your-images)
 ```
 
 ---
