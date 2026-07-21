@@ -194,7 +194,7 @@ You're connected! 🎉
 
 ## Desktop
 
-![Desktop](screenshots/desktop.png)
+![Desktop](Screenshot_20260711_232712.jpg)
 
 ---
 
@@ -206,7 +206,7 @@ You're connected! 🎉
 
 ## Terminal
 
-![Terminal](screenshots/terminal.png)
+![Terminal](Screenshot_20260717_203907.jpg)
 
 ---
 
