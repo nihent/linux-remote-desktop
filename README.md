@@ -1,81 +1,154 @@
 <div align="center">
 
-# 🖥️ XFCE + XRDP Remote Desktop Setup
+# 🖥️ Linux Remote Desktop
 
-### ⚡ Turn your Ubuntu/Debian Server into a Full Remote Desktop in Minutes
+### ⚡ Transform Your Ubuntu/Debian Server into a Beautiful Remote Desktop
 
-<img src="https://img.shields.io/badge/Linux-Ubuntu%20%7C%20Debian-E95420?style=for-the-badge&logo=linux&logoColor=white">
-<img src="https://img.shields.io/badge/Desktop-XFCE-2284F2?style=for-the-badge&logo=xfce&logoColor=white">
-<img src="https://img.shields.io/badge/Remote-XRDP-2D9CDB?style=for-the-badge">
-<img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge">
+<p>
+<img src="https://img.shields.io/github/stars/nihent/linux-remote-desktop?style=for-the-badge&logo=github">
+<img src="https://img.shields.io/github/forks/nihent/linux-remote-desktop?style=for-the-badge&logo=github">
+<img src="https://img.shields.io/github/issues/nihent/linux-remote-desktop?style=for-the-badge">
+<img src="https://img.shields.io/github/license/nihent/linux-remote-desktop?style=for-the-badge">
+</p>
 
-<br>
+<p>
+<img src="https://img.shields.io/badge/Ubuntu-Supported-E95420?style=for-the-badge&logo=ubuntu&logoColor=white">
+<img src="https://img.shields.io/badge/Debian-Supported-A81D33?style=for-the-badge&logo=debian&logoColor=white">
+<img src="https://img.shields.io/badge/Desktop-XFCE-2284F2?style=for-the-badge">
+<img src="https://img.shields.io/badge/Remote-XRDP-00A8E8?style=for-the-badge">
+<img src="https://img.shields.io/badge/Open%20Source-❤️-success?style=for-the-badge">
+</p>
 
-*A beautiful and lightweight Remote Desktop environment for your VPS or Dedicated Server.*
+<h3>🚀 Lightweight • Fast • Secure • Beginner Friendly • Open Source</h3>
 
-⭐ If this project helps you, consider giving it a **Star**.
+---
+
+**Turn any Ubuntu or Debian server into a fully functional Remote Desktop using XFCE and XRDP in just a few minutes.**
+
+⭐ **If this project helps you, don't forget to Star the repository!**
 
 </div>
 
 ---
 
-## 📖 Overview
+# 📑 Table of Contents
 
-This repository provides an easy way to install:
-
-- 🖥️ XFCE Desktop Environment
-- 🌐 XRDP Remote Desktop
-- ⚡ Lightweight & Fast
-- 🔒 Secure Remote Login
-- 🚀 Beginner Friendly
+- 📖 Overview
+- ✨ Features
+- 📂 Repository Structure
+- 🚀 Quick Installation
+- 📜 Manual Installation
+- 🖥️ Connect via RDP
+- 📸 Screenshots
+- ⚙️ Useful Commands
+- 🗑️ Uninstallation
+- 📋 Requirements
+- 💡 Why XFCE?
+- 🛣️ Roadmap
+- 🤝 Contributing
+- 🐞 Report Issues
+- 📄 License
 
 ---
 
-# 📦 Installation
+# 📖 Overview
 
-## ① Update System
+**Linux Remote Desktop** provides a quick and reliable way to install **XFCE Desktop Environment** with **XRDP** on Ubuntu and Debian.
+
+Perfect for:
+
+- ☁️ AWS EC2
+- 🌐 Google Cloud
+- 💙 Azure
+- ☁️ Oracle Cloud
+- 🚀 DigitalOcean
+- 🖥️ VPS Servers
+- 🏠 Home Servers
+- 💻 Development Machines
+
+---
+
+# ✨ Features
+
+- ✅ Lightweight XFCE Desktop
+- ✅ XRDP Remote Desktop
+- ✅ Automatic Service Configuration
+- ✅ Firewall Configuration
+- ✅ Easy Installation Script
+- ✅ Easy Uninstall Script
+- ✅ Beginner Friendly
+- ✅ Ubuntu Support
+- ✅ Debian Support
+- ✅ Open Source
+- ✅ Fast Installation
+- ✅ Clean Desktop Experience
+
+---
+
+# 📂 Repository Structure
+
+```text
+linux-remote-desktop/
+│
+├── README.md
+├── LICENSE
+├── install.sh
+├── uninstall.sh
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── .gitignore
+└── screenshots/
+    ├── login.png
+    ├── desktop.png
+    └── (your-images)
+```
+
+---
+
+# 🚀 Quick Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/nihent/linux-remote-desktop.git
+```
+
+Enter the project
+
+```bash
+cd linux-remote-desktop
+```
+
+Give execute permission
+
+```bash
+chmod +x install.sh
+```
+
+Run installer
+
+```bash
+./install.sh
+```
+
+That's it! 🎉
+
+---
+
+# 📜 Manual Installation
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-```
 
----
-
-## ② Install XFCE + XRDP
-
-```bash
 sudo apt install -y xfce4 xfce4-goodies xrdp dbus-x11
-```
 
----
-
-## ③ Configure XFCE Session
-
-```bash
 echo "xfce4-session" > ~/.xsession
-```
 
----
-
-## ④ Enable XRDP
-
-```bash
 sudo systemctl enable --now xrdp
-```
 
----
-
-## ⑤ Allow Firewall Port
-
-```bash
 sudo ufw allow 3389/tcp
-```
 
----
-
-## ⑥ Reboot (Recommended)
-
-```bash
 sudo reboot
 ```
 
@@ -83,57 +156,94 @@ sudo reboot
 
 # 🖥️ Connect Using Remote Desktop
 
-### Windows
+## Windows
 
-Open Run (`Win + R`)
+Press
 
-```text
+```
+Win + R
+```
+
+Type
+
+```
 mstsc
 ```
 
-Enter your server IP.
+Enter
 
-Login using:
+```
+YOUR_SERVER_IP
+```
 
-- Username
-- Password
+Login using
 
-Done! 🎉
+- Linux Username
+- Linux Password
+
+You're connected! 🎉
 
 ---
 
-# 📂 Installed Packages
+# 📸 Screenshots
 
-| Package | Description |
-|----------|-------------|
-| 🖥️ xfce4 | XFCE Desktop |
-| 🎨 xfce4-goodies | Extra XFCE Applications |
-| 🌐 xrdp | Remote Desktop Server |
-| ⚙️ dbus-x11 | Desktop Session Support |
+## Login Screen
+
+![Login](screenshots/login.png)
+
+---
+
+## Desktop
+
+![Desktop](screenshots/desktop.png)
+
+---
+
+## File Manager
+
+![Files](screenshots/files.png)
+
+---
+
+## Terminal
+
+![Terminal](screenshots/terminal.png)
 
 ---
 
 # ⚙️ Useful Commands
 
-### Check XRDP Status
+## XRDP Status
 
 ```bash
 systemctl status xrdp
 ```
 
-### Restart XRDP
+## Restart XRDP
 
 ```bash
 sudo systemctl restart xrdp
 ```
 
-### Stop XRDP
+## Stop XRDP
 
 ```bash
 sudo systemctl stop xrdp
 ```
 
-### Disable XRDP
+## Start XRDP
+
+```bash
+sudo systemctl start xrdp
+```
+
+## Enable XRDP
+
+```bash
+sudo systemctl enable xrdp
+```
+
+## Disable XRDP
 
 ```bash
 sudo systemctl disable xrdp
@@ -141,62 +251,125 @@ sudo systemctl disable xrdp
 
 ---
 
-# 🗑️ Uninstall
+# 🗑️ Uninstallation
 
 ```bash
-sudo apt remove --purge xfce4 xfce4-goodies xrdp dbus-x11 -y
-sudo apt autoremove -y
+chmod +x uninstall.sh
+
+./uninstall.sh
 ```
 
 ---
 
 # 📋 Requirements
 
-✅ Ubuntu/Debian
-
-✅ Root or sudo access
-
-✅ Internet Connection
+| Requirement | Supported |
+|--------------|-----------|
+| Ubuntu | ✅ |
+| Debian | ✅ |
+| Internet | ✅ |
+| Sudo Access | ✅ |
+| VPS | ✅ |
+| Dedicated Server | ✅ |
 
 ---
 
 # 💡 Why XFCE?
 
 | Feature | Benefit |
-|---------|---------|
+|---------|----------|
 | ⚡ Lightweight | Low RAM Usage |
-| 🚀 Fast | Great Performance |
-| 🛠️ Stable | Reliable Desktop |
-| 🎯 Beginner Friendly | Easy to Use |
+| 🚀 Fast | Smooth Performance |
+| 🎨 Beautiful | Clean Interface |
+| 🔒 Stable | Reliable Desktop |
+| 💻 Beginner Friendly | Easy to Use |
+
+---
+
+# 📊 Project Status
+
+| Status | Value |
+|---------|-------|
+| Active Development | ✅ |
+| Open Source | ✅ |
+| Community Friendly | ✅ |
+| Beginner Friendly | ✅ |
+
+---
+
+# 🛣️ Roadmap
+
+- [x] XFCE Installation
+- [x] XRDP Setup
+- [x] Firewall Configuration
+- [x] Installation Script
+- [x] Uninstallation Script
+- [x] Documentation
+- [ ] Audio Support
+- [ ] Dark Theme Installer
+- [ ] Google Chrome Installer
+- [ ] VS Code Installer
+- [ ] Docker Installer
+- [ ] NVIDIA Driver Support
+- [ ] Automatic Updates
 
 ---
 
 # 🤝 Contributing
 
-Contributions, Issues and Pull Requests are always welcome!
+Contributions are welcome!
 
-Feel free to improve this repository.
-
----
-
-# ⭐ Support
-
-If this project helped you,
-
-<div align="center">
-
-## ⭐ Star this Repository ⭐
-
-It motivates future updates and helps more people discover the project.
-
-</div>
+1. Fork the repository.
+2. Create your branch.
+3. Commit your changes.
+4. Push your branch.
+5. Open a Pull Request.
 
 ---
 
+# 🐞 Found a Bug?
+
+Open a GitHub Issue with:
+
+- Operating System
+- Server Provider
+- Error Logs
+- Steps to Reproduce
+
+---
+
+# ❤️ Support the Project
+
+If this repository helped you:
+
+⭐ Star this repository
+
+🍴 Fork this repository
+
+📢 Share it with others
+
+💬 Suggest new features
+
+🐛 Report bugs
+
+Every contribution helps make this project better.
+
+---
+
+# 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
 <div align="center">
 
-### ❤️ Made for the Linux Community
+## 🌍 Built for the Linux Community
 
-**Happy Remote Computing! 🚀**
+Made with ❤️ by **Nihent**
+
+### ⭐ Thanks for Visiting ⭐
+
+If you like this project, please consider giving it a Star!
 
 </div>
