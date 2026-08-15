@@ -365,7 +365,6 @@ This project is licensed under the **MIT License**.
 
 ## 🌍 Built for the Linux Community
 
-Made with ❤️ by **Nihent**
 
 ### ⭐ Thanks for Visiting ⭐
 
