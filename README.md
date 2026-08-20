@@ -68,6 +68,18 @@ Perfect for:
 
 ---
 
+
+## 👤 About This Setup
+
+This project is a **community setup/documentation guide**.
+
+> **Important:** I did not create or develop all of the underlying software used in this setup. This repository mainly documents a practical way to configure an Ubuntu/Debian server with XFCE, XRDP, and remote audio/microphone support.
+
+The actual software components are developed and maintained by their respective open-source projects.
+
+This repository is intended to make the setup easier for beginners by bringing the required commands, configuration, and usage instructions together in one place.
+
+
 # ✨ Features
 
 - ✅ Lightweight XFCE Desktop
@@ -307,6 +319,38 @@ sudo systemctl disable xrdp
 
 ---
 
+
+# 🛠️ Basic Troubleshooting
+
+## XRDP Status
+
+```bash
+systemctl status xrdp
+```
+
+## Restart XRDP
+
+```bash
+sudo systemctl restart xrdp
+```
+
+## Check Audio Services
+
+```bash
+systemctl --user status pipewire
+systemctl --user status wireplumber
+```
+
+## Open Audio Controls
+
+```bash
+pavucontrol
+```
+
+If audio or microphone redirection is not working, verify the RDP client's audio playback and microphone/recording redirection settings.
+
+---
+
 # 🗑️ Uninstallation
 
 Run:
@@ -345,6 +389,31 @@ Some package dependencies, system-level changes, cached data, or other configura
 The uninstaller **does not delete your personal files, home directory, SSH keys, user account, or unrelated applications.**
 
 If you require a completely fresh server, the safest option is to rebuild/reinstall the server from your cloud provider's original image.
+
+---
+
+
+# ⚠️ Limitations & Notes
+
+### 🎙️ Microphone Support
+
+Remote microphone support depends on the RDP client and server-side audio stack being compatible and correctly configured. If the microphone does not appear, check the RDP client's audio/recording redirection settings first.
+
+### 🔊 Audio Support
+
+Remote audio is also dependent on the RDP client. The packages in this project provide the server-side PipeWire/XRDP integration, but they cannot guarantee identical behavior across every RDP client, Linux distribution, or server image.
+
+### 🌐 VPS / Cloud Servers
+
+Performance depends on the server's CPU, RAM, network connection, and provider. A lightweight XFCE desktop is recommended for small VPS instances.
+
+### 🔐 Security
+
+Port `3389` should not be exposed unnecessarily to the entire internet. Where possible, restrict RDP access using your cloud provider's firewall/security group, a VPN, or an allowed IP range.
+
+### 🧪 Compatibility
+
+Package names and availability can vary between Ubuntu/Debian releases. If a package is unavailable on a particular release, the installation may need to be adjusted for that distribution/version.
 
 ---
 
@@ -431,7 +500,7 @@ Open a GitHub Issue with:
 
 # ❤️ Support the Project
 
-If this repository helped you:
+If this setup helped you, consider supporting the project by:
 
 ⭐ Star this repository
 
