@@ -82,9 +82,10 @@ Perfect for:
 - ✅ Open Source
 - ✅ Fast Installation
 - ✅ Clean Desktop Experience
-- 🔊 Audio Output Support (Remote Sound)
-- 🎙️ Microphone Input Support (Remote Mic)
+- 🔊 Remote Audio Output Support
+- 🎙️ Remote Microphone Input Support
 - 🎧 PipeWire + WirePlumber Audio Stack
+- 🎛️ Remote Audio Controls with Pavucontrol
 
 ---
 
@@ -134,17 +135,21 @@ Run installer
 ./install.sh
 ```
 
-That's it! 🎉 Your XFCE + XRDP setup now includes remote audio and microphone support.
+That's it! 🎉 XFCE + XRDP with remote audio and microphone support is now installed.
 
 ---
 
 # 📜 Manual Installation
 
-## 1️⃣ Install XFCE + XRDP
+## 1️⃣ Update the System
 
 ```bash
 sudo apt update && sudo apt upgrade -y
+```
 
+## 2️⃣ Install XFCE + XRDP
+
+```bash
 sudo apt install -y \
   xfce4 \
   xfce4-goodies \
@@ -153,16 +158,14 @@ sudo apt install -y \
   dbus-x11
 ```
 
-## 2️⃣ Configure XFCE Session
+## 3️⃣ Configure XFCE Session
 
 ```bash
 printf '%s\\n' 'exec startxfce4' > ~/.xsession
 chmod +x ~/.xsession
 ```
 
-## 3️⃣ Install Audio + Microphone Support
-
-The following packages enable the PipeWire audio stack and XRDP audio module:
+## 4️⃣ Install Audio + Microphone Support
 
 ```bash
 sudo apt install -y \
@@ -175,20 +178,21 @@ sudo apt install -y \
   xfce4-pulseaudio-plugin
 ```
 
-This provides:
+This adds:
 
-- 🔊 Remote audio output
+- 🔊 Remote audio playback
 - 🎙️ Remote microphone input
-- 🎛️ PulseAudio/PipeWire volume control
-- 🎧 XFCE audio controls
+- 🎧 PipeWire audio support
+- 🎛️ Audio controls through Pavucontrol
+- 🔌 XRDP audio integration
 
-## 4️⃣ Enable XRDP
+## 5️⃣ Enable XRDP
 
 ```bash
 sudo systemctl enable --now xrdp
 ```
 
-## 5️⃣ Allow RDP Through Firewall
+## 6️⃣ Configure Firewall
 
 If UFW is enabled:
 
@@ -196,13 +200,13 @@ If UFW is enabled:
 sudo ufw allow 3389/tcp
 ```
 
-## 6️⃣ Reboot
+## 7️⃣ Reboot
 
 ```bash
 sudo reboot
 ```
 
-> **Note:** Audio and microphone redirection also depends on the RDP client being configured to redirect sound and microphone input. On Windows Remote Desktop (`mstsc`), enable the appropriate audio playback and recording redirection options before connecting.
+> **RDP Client Note:** Audio and microphone redirection also depends on your RDP client. On Windows Remote Desktop (`mstsc`), enable remote audio playback and microphone/recording redirection before connecting.
 
 ---
 
@@ -305,11 +309,42 @@ sudo systemctl disable xrdp
 
 # 🗑️ Uninstallation
 
+Run:
+
 ```bash
 chmod +x uninstall.sh
-
 ./uninstall.sh
 ```
+
+The uninstaller removes the main components installed by this project:
+
+- XFCE Desktop
+- XRDP
+- Xorg XRDP
+- PipeWire
+- PipeWire Pulse
+- WirePlumber
+- XRDP audio modules
+- Pavucontrol
+- XFCE audio plugin
+- RDP firewall rule
+- Project-created XFCE session configuration
+
+## ⚠️ Important: Uninstallation Is Not a Full Rollback
+
+`uninstall.sh` cleans the main packages and configuration installed by this project, but **it does NOT guarantee that the server will return to exactly the same state it was in before installation.**
+
+In simple words:
+
+> ❌ Uninstalling does **not** mean the system becomes exactly "as if this project was never installed."
+
+> ✅ It removes the main components and cleans unused packages where possible.
+
+Some package dependencies, system-level changes, cached data, or other configuration changes may remain.
+
+The uninstaller **does not delete your personal files, home directory, SSH keys, user account, or unrelated applications.**
+
+If you require a completely fresh server, the safest option is to rebuild/reinstall the server from your cloud provider's original image.
 
 ---
 
@@ -323,6 +358,8 @@ chmod +x uninstall.sh
 | Sudo Access | ✅ |
 | VPS | ✅ |
 | Dedicated Server | ✅ |
+| RDP Client | Required |
+| Audio/Mic Redirection | Client Dependent |
 
 ---
 
