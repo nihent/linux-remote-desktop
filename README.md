@@ -101,26 +101,6 @@ This repository is intended to make the setup easier for beginners by bringing t
 
 ---
 
-# 📂 Repository Structure
-
-```text
-linux-remote-desktop/
-│
-├── README.md
-├── LICENSE
-├── install.sh
-├── uninstall.sh
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── .gitignore
-└── screenshots/
-    ├── login.png
-    ├── desktop.png
-```
-
----
-
 # 🚀 Quick Installation
 
 Clone the repository
