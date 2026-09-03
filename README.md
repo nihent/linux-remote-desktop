@@ -153,7 +153,7 @@ sudo apt install -y \
 ## 3️⃣ Configure XFCE Session
 
 ```bash
-printf '%s\\n' 'exec startxfce4' > ~/.xsession
+printf '%s\n' 'exec startxfce4' > ~/.xsession
 chmod +x ~/.xsession
 ```
 
