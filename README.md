@@ -16,7 +16,6 @@
 <img src="https://img.shields.io/badge/Debian-Supported-A81D33?style=for-the-badge&logo=debian&logoColor=white">
 <img src="https://img.shields.io/badge/Desktop-XFCE-2284F2?style=for-the-badge">
 <img src="https://img.shields.io/badge/Remote-XRDP-00A8E8?style=for-the-badge">
-<img src="https://img.shields.io/badge/Open%20Source-❤️-success?style=for-the-badge">
 </p>
 
 <h3>🚀 Lightweight • Fast • Secure • Beginner Friendly • Open Source</h3>
