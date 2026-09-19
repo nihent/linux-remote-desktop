@@ -495,12 +495,6 @@ Every contribution helps make this project better.
 
 ---
 
-# 📜 License
-
-This project is licensed under the **MIT License**.
-
----
-
 <div align="center">
 
 ## 🌍 Built for the Linux Community
