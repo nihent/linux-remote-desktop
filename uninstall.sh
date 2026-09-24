@@ -1,83 +1,57 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-set -e
+readonly STATE_DIR="/var/lib/linux-remote-desktop"
+readonly STATE_FILE="${STATE_DIR}/state"
+readonly PACKAGE_FILE="${STATE_DIR}/new-packages"
+readonly SESSION_FILE="${HOME}/.xsession"
+readonly BACKUP_FILE="${STATE_DIR}/xsession.backup"
 
-echo "========================================="
-echo " Linux Remote Desktop Uninstaller"
-echo " XFCE + XRDP + Audio + Microphone"
-echo "========================================="
+info() { printf '  %s\n' "$*"; }
+fail() { printf '  ERROR: %s\n' "$*" >&2; exit 1; }
 
-echo ""
-echo "[1/6] Stopping XRDP services..."
+command -v sudo >/dev/null 2>&1 || fail "sudo is required."
+sudo -v || fail "Could not obtain sudo access."
 
-sudo systemctl stop xrdp 2>/dev/null || true
-sudo systemctl disable xrdp 2>/dev/null || true
+printf '\n%s\n' '╭──────────────────────────────────────────────╮'
+printf '%s\n' '│       Linux Remote Desktop Uninstaller        │'
+printf '%s\n' '│       Conservative cleanup • No autoremove    │'
+printf '%s\n\n' '╰──────────────────────────────────────────────╯'
 
-echo ""
-echo "[2/6] Removing XRDP + XFCE..."
+if [[ ! -f "$STATE_FILE" ]]; then
+  info "No installer state was found. Nothing will be removed."
+  exit 0
+fi
 
-sudo apt purge -y \
-  xfce4 \
-  xfce4-goodies \
-  xrdp \
-  xorgxrdp \
-  dbus-x11
+read -r -p "Remove the Linux Remote Desktop setup? [y/N] " answer
+[[ "$answer" =~ ^[Yy]$ ]] || { info "Cancelled. No changes were made."; exit 0; }
 
-echo ""
-echo "[3/6] Removing Audio + Microphone support..."
+info "Stopping XRDP..."
+sudo systemctl disable --now xrdp 2>/dev/null || true
 
-sudo apt purge -y \
-  pipewire \
-  pipewire-pulse \
-  wireplumber \
-  pipewire-module-xrdp \
-  libpipewire-0.3-modules-xrdp \
-  pavucontrol \
-  xfce4-pulseaudio-plugin
+if [[ -s "$PACKAGE_FILE" ]]; then
+  info "Removing only packages recorded as newly installed..."
+  mapfile -t packages < "$PACKAGE_FILE"
+  if ((${#packages[@]})); then
+    sudo apt-get purge -y "${packages[@]}" || true
+  fi
+else
+  info "No package list found; leaving packages installed for safety."
+fi
 
-echo ""
-echo "[4/6] Removing XFCE session configuration..."
+if [[ -f "$BACKUP_FILE" ]]; then
+  cp -a "$BACKUP_FILE" "$SESSION_FILE"
+  info "Restored the previous ${SESSION_FILE}."
+elif [[ -f "$SESSION_FILE" ]] && grep -qx 'exec startxfce4' "$SESSION_FILE"; then
+  rm -f "$SESSION_FILE"
+  info "Removed the session file created by this installer."
+else
+  info "Preserved ${SESSION_FILE}; it may not belong to this project."
+fi
 
-rm -f ~/.xsession
-rm -f ~/.xinitrc
+info "Removing the installer state directory..."
+sudo rm -rf "$STATE_DIR"
 
-echo ""
-echo "[5/6] Removing RDP firewall rule..."
-
-sudo ufw delete allow 3389/tcp 2>/dev/null || true
-
-echo ""
-echo "[6/6] Cleaning unused packages and configuration..."
-
-sudo apt autoremove --purge -y
-sudo apt autoclean -y
-
-echo ""
-echo "========================================="
-echo " Uninstallation Complete! 🧹"
-echo "========================================="
-echo ""
-echo "Removed:"
-echo "  ✓ XFCE Desktop"
-echo "  ✓ XRDP"
-echo "  ✓ Xorg XRDP"
-echo "  ✓ PipeWire"
-echo "  ✓ PipeWire Pulse"
-echo "  ✓ WirePlumber"
-echo "  ✓ XRDP Audio Modules"
-echo "  ✓ PulseAudio/PipeWire Controls"
-echo "  ✓ XFCE Audio Plugin"
-echo "  ✓ XRDP firewall rule"
-echo "  ✓ XFCE session configuration"
-echo ""
-echo "⚠️ Important:"
-echo "This script cleans the installed packages and"
-echo "configuration created by this installer."
-echo ""
-echo "It does NOT delete your personal files,"
-echo "home directory, documents, or other user data."
-echo ""
-echo "A reboot is recommended:"
-echo ""
-echo "sudo reboot"
-echo ""
+printf '\n%s\n' 'Uninstallation complete.'
+printf '%s\n' 'No firewall rules were changed and no apt autoremove was run.'
+printf '%s\n\n' 'If you created a custom RDP firewall rule, remove it manually when ready.'

@@ -1,507 +1,172 @@
+# Linux Remote Desktop
+
 <div align="center">
 
-# 🖥️ Linux Remote Desktop
+### A safer, repeatable XFCE + XRDP setup for Ubuntu and Debian
 
-### ⚡ Transform Your Ubuntu/Debian Server into a Beautiful Remote Desktop
+[![ShellCheck](https://github.com/nihent/linux-remote-desktop/actions/workflows/ci.yml/badge.svg)](https://github.com/nihent/linux-remote-desktop/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square)](LICENSE)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-supported-e95420?style=flat-square&logo=ubuntu&logoColor=white)](https://ubuntu.com/)
+[![Debian](https://img.shields.io/badge/Debian-supported-a81d33?style=flat-square&logo=debian&logoColor=white)](https://www.debian.org/)
 
-<p>
-<img src="https://img.shields.io/github/stars/nihent/linux-remote-desktop?style=for-the-badge&logo=github">
-<img src="https://img.shields.io/github/forks/nihent/linux-remote-desktop?style=for-the-badge&logo=github">
-<img src="https://img.shields.io/github/issues/nihent/linux-remote-desktop?style=for-the-badge">
-<img src="https://img.shields.io/github/license/nihent/linux-remote-desktop?style=for-the-badge">
-</p>
+Turn a headless Linux server into a lightweight graphical desktop that you can access from Windows, macOS, Linux, or mobile RDP clients.
 
-<p>
-<img src="https://img.shields.io/badge/Ubuntu-Supported-E95420?style=for-the-badge&logo=ubuntu&logoColor=white">
-<img src="https://img.shields.io/badge/Debian-Supported-A81D33?style=for-the-badge&logo=debian&logoColor=white">
-<img src="https://img.shields.io/badge/Desktop-XFCE-2284F2?style=for-the-badge">
-<img src="https://img.shields.io/badge/Remote-XRDP-00A8E8?style=for-the-badge">
-</p>
-
-<h3>🚀 Lightweight • Fast • Secure • Beginner Friendly • Open Source</h3>
-
----
-
-**Turn any Ubuntu or Debian server into a fully functional Remote Desktop using XFCE and XRDP in just a few minutes.**
-
-⭐ **If this project helps you, don't forget to Star the repository!**
+[Quick start](#quick-start) · [Security](#security-first) · [Screenshots](#screenshots) · [Troubleshooting](#troubleshooting)
 
 </div>
 
----
+> **Scope:** This repository is a setup helper around XFCE, XRDP, and PipeWire. It is not a replacement for the upstream projects and should be tested on a non-critical host before production use.
 
-# 📑 Table of Contents
+## Highlights
 
-- 📖 Overview
-- ✨ Features
-- 📂 Repository Structure
-- 🚀 Quick Installation
-- 📜 Manual Installation
-- 🖥️ Connect via RDP
-- 📸 Screenshots
-- ⚙️ Useful Commands
-- 🗑️ Uninstallation
-- 📋 Requirements
-- 💡 Why XFCE?
-- 🛣️ Roadmap
-- 🤝 Contributing
-- 🐞 Report Issues
-- 📄 License
+- Lightweight XFCE desktop environment
+- XRDP service for standard RDP clients
+- PipeWire, WirePlumber, and XRDP audio integration
+- Validation for Ubuntu and Debian hosts
+- Installer state tracking and session-file backup
+- Conservative uninstall that avoids blanket `autoremove`
+- Security-first firewall guidance instead of opening RDP globally
 
----
+## Quick start
 
-# 📖 Overview
-
-**Linux Remote Desktop** provides a quick and reliable way to install **XFCE Desktop Environment** with **XRDP** on Ubuntu and Debian.
-
-Perfect for:
-
-- ☁️ AWS EC2
-- 🌐 Google Cloud
-- 💙 Azure
-- ☁️ Oracle Cloud
-- 🚀 DigitalOcean
-- 🖥️ VPS Servers
-- 🏠 Home Servers
-- 💻 Development Machines
-
----
-
-
-## 👤 About This Setup
-
-This project is a **community setup/documentation guide**.
-
-> **Important:** I did not create or develop all of the underlying software used in this setup. This repository mainly documents a practical way to configure an Ubuntu/Debian server with XFCE, XRDP, and remote audio/microphone support.
-
-The actual software components are developed and maintained by their respective open-source projects.
-
-This repository is intended to make the setup easier for beginners by bringing the required commands, configuration, and usage instructions together in one place.
-
-
-# ✨ Features
-
-- ✅ Lightweight XFCE Desktop
-- ✅ XRDP Remote Desktop
-- ✅ Automatic Service Configuration
-- ✅ Firewall Configuration
-- ✅ Easy Installation Script
-- ✅ Easy Uninstall Script
-- ✅ Beginner Friendly
-- ✅ Ubuntu Support
-- ✅ Debian Support
-- ✅ Open Source
-- ✅ Fast Installation
-- ✅ Clean Desktop Experience
-- 🔊 Remote Audio Output Support
-- 🎙️ Remote Microphone Input Support
-- 🎧 PipeWire + WirePlumber Audio Stack
-- 🎛️ Remote Audio Controls with Pavucontrol
-
----
-
-# 🚀 Quick Installation
-
-Clone the repository
+### 1. Download the project
 
 ```bash
 git clone https://github.com/nihent/linux-remote-desktop.git
-```
-
-Enter the project
-
-```bash
 cd linux-remote-desktop
 ```
 
-Give execute permission
+### 2. Run the installer
+
+The installer asks for `sudo` access, refreshes package indexes, installs the desktop stack, configures the current user's XFCE session, and enables XRDP. It does **not** run a system-wide upgrade or change your firewall automatically.
 
 ```bash
-chmod +x install.sh
-```
-
-Run installer
-
-```bash
+chmod +x install.sh uninstall.sh
 ./install.sh
 ```
 
-That's it! 🎉 XFCE + XRDP with remote audio and microphone support is now installed.
+### 3. Secure the RDP port
 
----
-
-# 📜 Manual Installation
-
-## 1️⃣ Update the System
+RDP listens on TCP port `3389`. Restrict it to your own IP address, VPN network, or private cloud security group. For UFW, use a restricted rule similar to:
 
 ```bash
-sudo apt update && sudo apt upgrade -y
+sudo ufw allow from YOUR_PUBLIC_IP to any port 3389 proto tcp
 ```
 
-## 2️⃣ Install XFCE + XRDP
+Do not expose `3389/tcp` to the entire public internet unless you understand and accept the risk. A VPN, SSH tunnel, or provider firewall is preferred.
 
-```bash
-sudo apt install -y \
-  xfce4 \
-  xfce4-goodies \
-  xrdp \
-  xorgxrdp \
-  dbus-x11
-```
-
-## 3️⃣ Configure XFCE Session
-
-```bash
-printf '%s\n' 'exec startxfce4' > ~/.xsession
-chmod +x ~/.xsession
-```
-
-## 4️⃣ Install Audio + Microphone Support
-
-```bash
-sudo apt install -y \
-  pipewire \
-  pipewire-pulse \
-  wireplumber \
-  pipewire-module-xrdp \
-  libpipewire-0.3-modules-xrdp \
-  pavucontrol \
-  xfce4-pulseaudio-plugin
-```
-
-This adds:
-
-- 🔊 Remote audio playback
-- 🎙️ Remote microphone input
-- 🎧 PipeWire audio support
-- 🎛️ Audio controls through Pavucontrol
-- 🔌 XRDP audio integration
-
-## 5️⃣ Enable XRDP
-
-```bash
-sudo systemctl enable --now xrdp
-```
-
-## 6️⃣ Configure Firewall
-
-If UFW is enabled:
-
-```bash
-sudo ufw allow 3389/tcp
-```
-
-## 7️⃣ Reboot
+### 4. Reboot and connect
 
 ```bash
 sudo reboot
 ```
 
-> **RDP Client Note:** Audio and microphone redirection also depends on your RDP client. On Windows Remote Desktop (`mstsc`), enable remote audio playback and microphone/recording redirection before connecting.
+Connect to the server's IP address using an RDP client. On Windows, press `Win + R`, enter `mstsc`, and provide the server address. Sign in with an existing Linux user account; do not use the `root` account for graphical sessions.
 
----
+## What gets installed
 
-# 🖥️ Connect Using Remote Desktop
+| Component | Purpose |
+| --- | --- |
+| XFCE and XFCE Goodies | Lightweight graphical desktop |
+| XRDP and Xorg XRDP | RDP server and Xorg integration |
+| PipeWire and WirePlumber | Modern audio session management |
+| XRDP audio modules | Audio redirection support where packaged by the distribution |
+| Pavucontrol | Graphical audio controls |
 
-## Windows
+Package availability varies by distribution release. If an audio package is unavailable, install the desktop and XRDP components first, then consult your distribution's PipeWire and XRDP documentation.
 
-Press
+## Manual installation
 
-```
-Win + R
-```
-
-Type
-
-```
-mstsc
-```
-
-Enter
-
-```
-YOUR_SERVER_IP
-```
-
-Login using
-
-- Linux Username
-- Linux Password
-
-You're connected! 🎉
-
----
-
-# 📸 Screenshots
-
-## Login Screen
-
-![Login](screenshots/login.png)
-
----
-
-## Desktop
-
-![Desktop](Screenshot_20260711_232712.jpg)
-
----
-
-## File Manager
-
-![Files](screenshots/files.png)
-
----
-
-## Terminal
-
-![Terminal](Screenshot_20260717_203907.jpg)
-
----
-
-# ⚙️ Useful Commands
-
-## XRDP Status
+If you prefer to review every command, install the core components yourself:
 
 ```bash
-systemctl status xrdp
+sudo apt-get update
+sudo apt-get install -y \
+  xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11
+printf '%s\n' 'exec startxfce4' > ~/.xsession
+chmod 700 ~/.xsession
+sudo systemctl enable --now xrdp
 ```
 
-## Restart XRDP
+Optional audio support:
 
 ```bash
-sudo systemctl restart xrdp
+sudo apt-get install -y \
+  pipewire pipewire-pulse wireplumber \
+  pipewire-module-xrdp libpipewire-0.3-modules-xrdp \
+  pavucontrol xfce4-pulseaudio-plugin
 ```
 
-## Stop XRDP
+## Uninstallation
+
+The uninstaller is intentionally conservative. It asks for confirmation, stops XRDP, removes only packages recorded as newly installed by the installer, restores a backed-up `.xsession` when available, and does not run `apt autoremove`.
 
 ```bash
-sudo systemctl stop xrdp
-```
-
-## Start XRDP
-
-```bash
-sudo systemctl start xrdp
-```
-
-## Enable XRDP
-
-```bash
-sudo systemctl enable xrdp
-```
-
-## Disable XRDP
-
-```bash
-sudo systemctl disable xrdp
-```
-
----
-
-
-# 🛠️ Basic Troubleshooting
-
-## XRDP Status
-
-```bash
-systemctl status xrdp
-```
-
-## Restart XRDP
-
-```bash
-sudo systemctl restart xrdp
-```
-
-## Check Audio Services
-
-```bash
-systemctl --user status pipewire
-systemctl --user status wireplumber
-```
-
-## Open Audio Controls
-
-```bash
-pavucontrol
-```
-
-If audio or microphone redirection is not working, verify the RDP client's audio playback and microphone/recording redirection settings.
-
----
-
-# 🗑️ Uninstallation
-
-Run:
-
-```bash
-chmod +x uninstall.sh
 ./uninstall.sh
 ```
 
-The uninstaller removes the main components installed by this project:
+The installer does not manage firewall rules, so remove any custom RDP rule separately when you are ready. Always review the output before confirming removal.
 
-- XFCE Desktop
-- XRDP
-- Xorg XRDP
-- PipeWire
-- PipeWire Pulse
-- WirePlumber
-- XRDP audio modules
-- Pavucontrol
-- XFCE audio plugin
-- RDP firewall rule
-- Project-created XFCE session configuration
+## Security first
 
-## ⚠️ Important: Uninstallation Is Not a Full Rollback
+- Restrict RDP at the cloud-provider firewall and host firewall.
+- Prefer a VPN or private network over a public RDP endpoint.
+- Keep Ubuntu/Debian and XRDP packages updated through your normal patch process.
+- Use a strong, non-root Linux account and SSH keys for administration.
+- Never paste passwords, private keys, or cloud credentials into an issue.
+- Review `SECURITY.md` before reporting a vulnerability.
 
-`uninstall.sh` cleans the main packages and configuration installed by this project, but **it does NOT guarantee that the server will return to exactly the same state it was in before installation.**
+## Troubleshooting
 
-In simple words:
+### The XRDP service is not running
 
-> ❌ Uninstalling does **not** mean the system becomes exactly "as if this project was never installed."
+```bash
+systemctl status xrdp --no-pager
+sudo journalctl -u xrdp -b --no-pager
+```
 
-> ✅ It removes the main components and cleans unused packages where possible.
+### The desktop session is blank or immediately disconnects
 
-Some package dependencies, system-level changes, cached data, or other configuration changes may remain.
+Check that the session file contains the XFCE command and that the connecting account has a valid home directory:
 
-The uninstaller **does not delete your personal files, home directory, SSH keys, user account, or unrelated applications.**
+```bash
+cat ~/.xsession
+# expected: exec startxfce4
+```
 
-If you require a completely fresh server, the safest option is to rebuild/reinstall the server from your cloud provider's original image.
+### The client cannot connect
 
----
+Check the service and listen socket first, then inspect your provider firewall and UFW rules:
 
+```bash
+sudo ss -ltnp | grep ':3389'
+sudo ufw status verbose
+```
 
-# ⚠️ Limitations & Notes
+Audio and microphone redirection also depends on the RDP client. Enable those options in the client before connecting.
 
-### 🎙️ Microphone Support
+## Screenshots
 
-Remote microphone support depends on the RDP client and server-side audio stack being compatible and correctly configured. If the microphone does not appear, check the RDP client's audio/recording redirection settings first.
+| XRDP desktop | Terminal |
+| --- | --- |
+| ![XFCE desktop](Screenshot_20260711_232712.jpg) | ![Terminal](Screenshot_20260717_203907.jpg) |
 
-### 🔊 Audio Support
+## Repository layout
 
-Remote audio is also dependent on the RDP client. The packages in this project provide the server-side PipeWire/XRDP integration, but they cannot guarantee identical behavior across every RDP client, Linux distribution, or server image.
+```text
+.
+├── install.sh       # Validated installer with state tracking
+├── uninstall.sh     # Confirmation-based conservative cleanup
+├── README.md        # Setup, security, and troubleshooting guide
+├── SECURITY.md      # Vulnerability reporting guidance
+├── CHANGELOG.md     # Release history
+└── .github/workflows/ci.yml
+```
 
-### 🌐 VPS / Cloud Servers
+## Contributing
 
-Performance depends on the server's CPU, RAM, network connection, and provider. A lightweight XFCE desktop is recommended for small VPS instances.
+Bug reports and improvements are welcome. Please include the distribution and release, the exact command that failed, relevant output with secrets removed, and whether the issue occurred during installation, connection, audio, or removal. See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution process.
 
-### 🔐 Security
+## License
 
-Port `3389` should not be exposed unnecessarily to the entire internet. Where possible, restrict RDP access using your cloud provider's firewall/security group, a VPN, or an allowed IP range.
-
-### 🧪 Compatibility
-
-Package names and availability can vary between Ubuntu/Debian releases. If a package is unavailable on a particular release, the installation may need to be adjusted for that distribution/version.
-
----
-
-# 📋 Requirements
-
-| Requirement | Supported |
-|--------------|-----------|
-| Ubuntu | ✅ |
-| Debian | ✅ |
-| Internet | ✅ |
-| Sudo Access | ✅ |
-| VPS | ✅ |
-| Dedicated Server | ✅ |
-| RDP Client | Required |
-| Audio/Mic Redirection | Client Dependent |
-
----
-
-# 💡 Why XFCE?
-
-| Feature | Benefit |
-|---------|----------|
-| ⚡ Lightweight | Low RAM Usage |
-| 🚀 Fast | Smooth Performance |
-| 🎨 Beautiful | Clean Interface |
-| 🔒 Stable | Reliable Desktop |
-| 💻 Beginner Friendly | Easy to Use |
-
----
-
-# 📊 Project Status
-
-| Status | Value |
-|---------|-------|
-| Active Development | ✅ |
-| Open Source | ✅ |
-| Community Friendly | ✅ |
-| Beginner Friendly | ✅ |
-
----
-
-# 🛣️ Roadmap
-
-- [x] XFCE Installation
-- [x] XRDP Setup
-- [x] Firewall Configuration
-- [x] Installation Script
-- [x] Uninstallation Script
-- [x] Documentation
-- [x] Audio Output Support
-- [x] Microphone Input Support
-- [x] PipeWire + XRDP Audio Integration
-- [ ] Dark Theme Installer
-- [ ] Google Chrome Installer
-- [ ] VS Code Installer
-- [ ] Docker Installer
-- [ ] NVIDIA Driver Support
-- [ ] Automatic Updates
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome!
-
-1. Fork the repository.
-2. Create your branch.
-3. Commit your changes.
-4. Push your branch.
-5. Open a Pull Request.
-
----
-
-# 🐞 Found a Bug?
-
-Open a GitHub Issue with:
-
-- Operating System
-- Server Provider
-- Error Logs
-- Steps to Reproduce
-
----
-
-# ❤️ Support the Project
-
-If this setup helped you, consider supporting the project by:
-
-⭐ Star this repository
-
-🍴 Fork this repository
-
-📢 Share it with others
-
-💬 Suggest new features
-
-🐛 Report bugs
-
-Every contribution helps make this project better.
-
----
-
-<div align="center">
-
-## 🌍 Built for the Linux Community
-
-
-### ⭐ Thanks for Visiting ⭐
-
-If you like this project, please consider giving it a Star!
-
-</div>
+This project is released under the [MIT License](LICENSE). XFCE, XRDP, PipeWire, and the other installed components remain under their respective upstream licenses.

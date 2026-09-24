@@ -1,20 +1,22 @@
-Changelog
+# Changelog
 
-All notable changes to this project will be documented here.
+All notable changes to this project are documented here.
 
-v1.0.0 - Initial Release
+## Unreleased
 
-Added
+### Added
 
-- XFCE Desktop installation
-- XRDP Remote Desktop setup
-- Firewall configuration
-- Installation script ("install.sh")
-- Uninstallation script ("uninstall.sh")
-- Detailed README
-- MIT License
-- GitHub repository setup
-- Screenshots section
-- Roadmap
-- Contributing guide
-- Security policy
+- Safer installer with Ubuntu/Debian validation and no automatic system upgrade.
+- Installer state tracking and backup of an existing `.xsession` file.
+- Conservative uninstaller with confirmation and no blanket `apt autoremove`.
+- Security policy, MIT license, and GitHub Actions shell validation.
+- Updated documentation, security guidance, troubleshooting, and repository layout.
+
+### Changed
+
+- Firewall rules are no longer opened automatically; users are shown restricted examples instead.
+- Broken screenshot references and stale setup instructions were removed.
+
+## v1.0.0
+
+Initial release with XFCE, XRDP, audio setup, installation and uninstallation scripts, documentation, and screenshots.

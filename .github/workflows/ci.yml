@@ -1,0 +1,27 @@
+name: Validate scripts
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  shell:
+    name: ShellCheck and syntax checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './'
+
+      - name: Check Bash syntax
+        run: |
+          bash --version
+          bash -n install.sh
+          bash -n uninstall.sh
